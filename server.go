@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/helpers/postgres"
+	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/models"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -24,6 +28,16 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func testInsert() {
+
+	newTodo := new(models.Todo)
+	newTodo.Content = "A new todo!"
+	newTodo.CreatedAt = time.Now()
+
+	_ = postgres.InsertTodo(newTodo)
+
+}
+
 func main() {
 
 	log.Println("server	|	initializing")
@@ -36,6 +50,8 @@ func main() {
 
 	// Calls ping method
 	config.PingDB()
+
+	testInsert()
 
 	// Creates a new Mux Router
 	r := mux.NewRouter()

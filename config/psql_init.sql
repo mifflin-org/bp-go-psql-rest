@@ -2,7 +2,7 @@ create table todos
 (
 	id serial,
 	content varchar not null,
-	created_at timestamptz not null,
+	created_at timestamp not null,
 	completed bool default false
 );
 
