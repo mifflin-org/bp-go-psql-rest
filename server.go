@@ -34,8 +34,42 @@ func testInsert() {
 	newTodo.Content = "A new todo!"
 	newTodo.CreatedAt = time.Now()
 
-	_ = postgres.InsertTodo(newTodo)
+	_ = postgres.Insert(newTodo)
 
+}
+
+func testFetchAll() {
+	todos, _ := postgres.FetchAll()
+
+	log.Printf("fetchAll	|	%d\n", len(todos))
+}
+
+func testFetchByID() {
+	if todo, err := postgres.FetchByID(30); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Printf("fetchByID	|	%v\n", todo)
+	}
+}
+
+func testUpdateCompletedByID() {
+	if todo, err := postgres.UpdateCompletedByID(30); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Printf("fetchByID	|	%v\n", todo)
+	}
+}
+
+func testDeleteByID() {
+	if err := postgres.DeleteByID(34); err != nil {
+		log.Fatal(err)
+	} else {
+		log.Printf("delete	|	success\n")
+
+		todos, _ := postgres.FetchAll()
+
+		log.Printf("fetchAll	|	%d\n", len(todos))
+	}
 }
 
 func main() {
@@ -52,6 +86,11 @@ func main() {
 	config.PingDB()
 
 	testInsert()
+	testInsert()
+	testFetchAll()
+	testFetchByID()
+	testUpdateCompletedByID()
+	testDeleteByID()
 
 	// Creates a new Mux Router
 	r := mux.NewRouter()
