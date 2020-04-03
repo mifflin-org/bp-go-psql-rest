@@ -2,29 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/routes"
 	"log"
 	"net/http"
 
-	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/handlers/todo"
-
-	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/config"
 )
 
-// DefaultHandler GET Returns a generic hello message
-func DefaultHandler(w http.ResponseWriter, r *http.Request) {
-
-	// Sets the Response Code as 200
-	w.WriteHeader(http.StatusOK)
-
-	// Fprintf writes the format string to w
-	fmt.Fprintf(w, "Hello from gopher! You hit the default URL.")
-
-	// as soon as the function ends the response w is returned
-
-}
 
 func main() {
 
@@ -40,16 +25,7 @@ func main() {
 	config.PingDB()
 
 	// Creates a new Mux Router
-	r := mux.NewRouter()
-
-	r.HandleFunc("/", DefaultHandler).Methods("GET")
-	
-	r.HandleFunc("/api/todo", todo.InsertToDoHandler).Methods("POST")
-	r.HandleFunc("/api/todo/{id}", todo.FetchToDoByID).Methods("GET")
-	r.HandleFunc("/api/todo/{id}", todo.UpdateCompletedToDoHandler).Methods("PUT")
-	r.HandleFunc("/api/todo/{id}", todo.DeleteToDoByID).Methods("DELETE")
-
-	r.HandleFunc("/api/todos", todo.FetchToDoAll).Methods("GET")
+	r := routes.NewRouter()
 
 	// This is used to remove CORS that arise when request comes from the same server's another port
 	handler := cors.AllowAll().Handler(r)
