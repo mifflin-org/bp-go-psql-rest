@@ -3,16 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
-	"net/http"
-	"time"
-
-	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/helpers/postgres"
-	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/models"
-
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/config"
+	"log"
+	"net/http"
 )
 
 // DefaultHandler GET Returns a generic hello message
@@ -28,50 +23,6 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func testInsert() {
-
-	newTodo := new(models.Todo)
-	newTodo.Content = "A new todo!"
-	newTodo.CreatedAt = time.Now()
-
-	_ = postgres.Insert(newTodo)
-
-}
-
-func testFetchAll() {
-	todos, _ := postgres.FetchAll()
-
-	log.Printf("fetchAll	|	%d\n", len(todos))
-}
-
-func testFetchByID() {
-	if todo, err := postgres.FetchByID(30); err != nil {
-		log.Fatal(err)
-	} else {
-		log.Printf("fetchByID	|	%v\n", todo)
-	}
-}
-
-func testUpdateCompletedByID() {
-	if todo, err := postgres.UpdateCompletedByID(30); err != nil {
-		log.Fatal(err)
-	} else {
-		log.Printf("fetchByID	|	%v\n", todo)
-	}
-}
-
-func testDeleteByID() {
-	if err := postgres.DeleteByID(34); err != nil {
-		log.Fatal(err)
-	} else {
-		log.Printf("delete	|	success\n")
-
-		todos, _ := postgres.FetchAll()
-
-		log.Printf("fetchAll	|	%d\n", len(todos))
-	}
-}
-
 func main() {
 
 	log.Println("server	|	initializing")
@@ -84,13 +35,6 @@ func main() {
 
 	// Calls ping method
 	config.PingDB()
-
-	testInsert()
-	testInsert()
-	testFetchAll()
-	testFetchByID()
-	testUpdateCompletedByID()
-	testDeleteByID()
 
 	// Creates a new Mux Router
 	r := mux.NewRouter()
