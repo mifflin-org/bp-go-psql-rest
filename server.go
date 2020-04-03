@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/config"
-	"log"
-	"net/http"
+	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/handlers"
 )
 
 // DefaultHandler GET Returns a generic hello message
@@ -41,6 +43,7 @@ func main() {
 
 	// Default route : GET /
 	r.HandleFunc("/", DefaultHandler).Methods("GET")
+	r.HandleFunc("/api/todo", handlers.InsertToDoHandler).Methods("POST")
 
 	// This is used to remove CORS that arise when request comes from the same server's another port
 	handler := cors.AllowAll().Handler(r)
