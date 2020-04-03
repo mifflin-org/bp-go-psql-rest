@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/config"
 )
 
 // DefaultHandler GET Returns a generic hello message
@@ -24,7 +26,16 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	log.Println("server: initializing")
+	log.Println("server	|	initializing")
+
+	// Database setup
+	config.ConnectDB()
+
+	// Close the database connection once the main function is finished
+	defer config.DB.Close(context.Background())
+
+	// Calls ping method
+	config.PingDB()
 
 	// Creates a new Mux Router
 	r := mux.NewRouter()
