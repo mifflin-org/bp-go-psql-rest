@@ -1,1 +1,1 @@
-# go-postgres-rest-api-boilerplate
+# go-postgres-rest-docker-boilerplate
