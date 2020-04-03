@@ -12,7 +12,7 @@ import (
 // Insert Inserts a model Todo into the database
 func Insert(todo *models.Todo) error {
 
-	log.Printf("helper	|	inserting todo\n%v\n", todo)
+	log.Printf("helper	|	inserting todo %s\n", todo.Content)
 
 	// Template Query to Insert Todo
 	query := "INSERT INTO todos(content, created_at) VALUES($1, $2) RETURNING id;"
@@ -94,7 +94,7 @@ func FetchByID(id int) (models.Todo, error) {
 			return todo, nil
 		}
 
-		return todo, errors.New("fetchById: no row found")
+		return todo, errors.New("no record found")
 	}
 
 }

@@ -1,4 +1,4 @@
-package handlers
+package todo
 
 import (
 	"encoding/json"
@@ -9,15 +9,6 @@ import (
 	helper "github.com/zerefwayne/go-postgres-rest-docker-boilerplate/helpers/postgres"
 	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/models"
 )
-
-type insertRequest struct {
-	Content string `json:"content"`
-}
-
-type response struct {
-	Success bool        `json:"success"`
-	Payload interface{} `json:"payload"`
-}
 
 // InsertToDoHandler POST	/todo	inserts a new ToDo
 func InsertToDoHandler(w http.ResponseWriter, r *http.Request) {
@@ -73,8 +64,12 @@ func InsertToDoHandler(w http.ResponseWriter, r *http.Request) {
 
 		resp := new(response)
 
+		body := make(map[string]interface{})
+
+		body["todo"] = newToDo
+
 		resp.Success = true
-		resp.Payload = newToDo
+		resp.Payload = body
 
 		responseStr, _ := json.Marshal(resp)
 
