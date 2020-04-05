@@ -14,17 +14,9 @@ services:
   my-server:
     # Builds the directory . (current)
     # It finds the Dockerfile and builds the image
-    build: .
+    image: zerefwayne/go-psql-rest-boilerplate:latest
     # If app crashes, it will restart the container again
     restart: on-failure
-    # Reads the environment from the terminal and feeds it to the container
-    # Run the .env file in the terminal from which docker-compose is run
-    environment:
-      - DB_HOST=${PG_HOST}
-      - DB_PORT=${PG_PORT}
-      - DB_USER=${PG_USER}
-      - DB_PASSWORD=${PG_PASSWORD}
-      - DB_NAME=${PG_DB}
     # Volume defines the persistent storage on the host machine in which
     # the container is run
     volumes:
