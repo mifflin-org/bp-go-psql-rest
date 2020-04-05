@@ -1,7 +1,7 @@
 package todo
 
 import (
-	helper "github.com/zerefwayne/go-postgres-rest-docker-boilerplate/helpers/postgres"
+	helper "github.com/zerefwayne/go-postgres-rest-docker-boilerplate/helpers/postgres/todo"
 	"github.com/zerefwayne/go-postgres-rest-docker-boilerplate/utils"
 	"net/http"
 )
